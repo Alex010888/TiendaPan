@@ -2,6 +2,12 @@
 //URL base
 $url_base="http://localhost/TiendaPan/";
 //$url_base="http:// 192.168.1.44/TiendaPan/";
+session_start(); // Inicia la sesión
+// Verifica si el usuario ha iniciado sesión
+if (!isset($_SESSION["usuario"])) {
+  header("Location: " . $url_base . "login.php");
+  exit();
+}
 ?>
 <!doctype html>
 <html lang="es">
@@ -74,9 +80,9 @@ $url_base="http://localhost/TiendaPan/";
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-danger" href="#">
-          <i class="bi bi-box-arrow-right"></i><br>Cerrar sesión
-        </a>
+      <a class="nav-link text-danger" href="<?php echo $url_base ?>logout.php">
+  <i class="bi bi-box-arrow-right"></i><br>Cerrar sesión
+</a>
       </li>
     </ul>
   </div>
