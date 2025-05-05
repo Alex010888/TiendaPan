@@ -58,34 +58,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <br>
-<div class="card">
-    <div class="card-header">Datos para registrar productos</div>
-    <div class="card-body">
-        <form action="" method="post" enctype="multipart/form-data">
+<div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">🛒 Registrar nuevo producto</h5>
+    </div>
+    <div class="card-body bg-white">
+        <form action="" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label for="Nombre" class="form-label">Nombre del producto</label>
-                <input type="text" class="form-control" name="Nombre" id="Nombre" placeholder="Nombre" required />
+                <input type="text" class="form-control rounded-pill" name="Nombre" id="Nombre" placeholder="Ej. Pan integral" required>
             </div>
+
             <div class="mb-3">
-                <label for="Foto" class="form-label">Foto del producto</label>
-                <input type="file" class="form-control" name="Foto" id="Foto" required />
-            </div>
+    <label for="Foto" class="form-label">Foto del producto</label>
+    <input type="file" class="form-control rounded-pill" name="Foto" id="Foto" accept="image/*" required>
+    <div class="mt-2 text-center">
+        <img id="preview" src="#" alt="Vista previa" class="img-fluid rounded shadow" style="max-height: 200px; display: none;">
+    </div>
+</div>
+<script>
+    document.getElementById('Foto').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('preview');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+        }
+    });
+</script>
+
+
             <div class="mb-3">
                 <label for="Precio" class="form-label">Precio</label>
-                <input type="text" class="form-control" name="Precio" id="Precio" placeholder="Precio" required />
+                <input type="text" class="form-control rounded-pill" name="Precio" id="Precio" placeholder="Ej. 1.50" required>
             </div>
+
             <div class="mb-3">
                 <label for="Categoria" class="form-label">Categoría</label>
-                <select class="form-select form-select-sm" name="Categoria" id="Categoria" required>
+                <select class="form-select rounded-pill" name="Categoria" id="Categoria" required>
                     <option value="">Seleccione una categoría</option>
                     <?php
-                    // Conexión a la base de datos usando PDO
                     try {
-                        // Consulta para obtener las categorías
                         $sentencia = $conn->prepare("SELECT id, nombre FROM categorias");
                         $sentencia->execute();
                         $categorias = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-
                         foreach ($categorias as $categoria) {
                             echo "<option value='" . $categoria['id'] . "'>" . $categoria['nombre'] . "</option>";
                         }
@@ -95,18 +117,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ?>
                 </select>
             </div>
+
             <div class="mb-3">
                 <label for="Descripcion" class="form-label">Descripción</label>
-                <input type="text" class="form-control" name="Descripcion" id="Descripcion" placeholder="Descripción" />
+                <textarea class="form-control rounded-3" name="Descripcion" id="Descripcion" rows="2" placeholder="Breve descripción del producto..."></textarea>
             </div>
+
             <div class="mb-3">
                 <label for="Fecha" class="form-label">Fecha</label>
-                <input type="date" class="form-control" name="Fecha" id="Fecha" />
+                <input type="date" class="form-control rounded-pill" name="Fecha" id="Fecha">
             </div>
-            <button type="submit" class="btn btn-success">Agregar</button>
-            <a class="btn btn-primary" href="index.php" role="button">Cancelar</a>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success rounded-pill">
+                    <i class="bi bi-check-circle"></i> Agregar
+                </button>
+                <a class="btn btn-outline-primary rounded-pill" href="index.php">
+                    <i class="bi bi-arrow-left-circle"></i> Cancelar
+                </a>
+            </div>
         </form>
     </div>
 </div>
+
 
 <?php include("../../templates/footer.php"); ?>

@@ -46,45 +46,55 @@ try {
 <?php include("../../templates/header.php"); ?>
 
 <br>
-<div class="card">
-    <div class="card-header">Lista de productos</div>
-    <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Agregar registro</a>
-    <div class="card-body">
-        <div class="table-responsive-sm">
-            <table class="table" id="tabla_id">
-                <thead>
+<div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">📋 Lista de productos</h5>
+        <a class="btn btn-light btn-sm rounded-pill" href="crear.php">
+            <i class="bi bi-plus-circle"></i> Agregar producto
+        </a>
+    </div>
+
+    <div class="card-body bg-white">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center" id="tabla_id">
+                <thead class="table-light">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Categoría</th>
-                        <th scope="col">Foto</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Opciones</th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Categoría</th>
+                        <th>Foto</th>
+                        <th>Fecha</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody id="productTable">
-                    <?php foreach ($listar_tbl_pan as $registro) { ?>
+                    <?php foreach ($listar_tbl_pan as $registro): ?>
                         <tr>
-                            <td scope="row"><?php echo htmlspecialchars($registro["id"]); ?></td>
-                            <td><?php echo htmlspecialchars($registro["nombre"]); ?></td>
-                            <td><?php echo htmlspecialchars($registro["precio"]); ?></td>
-                            <td><?php echo htmlspecialchars($registro["categoria"]); ?></td>
+                            <td><?= htmlspecialchars($registro["id"]) ?></td>
+                            <td><?= htmlspecialchars($registro["nombre"]) ?></td>
+                            <td>$<?= number_format($registro["precio"], 2) ?></td>
+                            <td><?= htmlspecialchars($registro["categoria"]) ?></td>
                             <td>
-                                <img width="100" src="../../uploads/<?php echo htmlspecialchars($registro['foto']); ?>" alt="Foto del producto">
+                                <img class="rounded" width="80" src="../../uploads/<?= htmlspecialchars($registro['foto']) ?>" alt="Foto del producto">
                             </td>
-                            <td><?php echo htmlspecialchars($registro["fecha"]); ?></td>
+                            <td><?= htmlspecialchars($registro["fecha"]) ?></td>
                             <td>
-                                <a class="btn btn-info" href="editar.php?txtID=<?php echo htmlspecialchars($registro['id']); ?>">Editar</a>
-                                <a class="btn btn-danger delete-product" href="javascript:borrar(<?php echo htmlspecialchars($registro['id']); ?>);" data-product-id="<?php echo htmlspecialchars($registro['id']); ?>">Eliminar</a>
+                                <a class="btn btn-outline-info btn-sm rounded-pill" href="editar.php?txtID=<?= htmlspecialchars($registro['id']) ?>">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <button class="btn btn-outline-danger btn-sm rounded-pill delete-product" data-product-id="<?= htmlspecialchars($registro['id']) ?>">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </td>
                         </tr>
-                    <?php } ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
