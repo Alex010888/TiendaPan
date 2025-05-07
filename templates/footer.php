@@ -101,6 +101,24 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 </script>
 
+<script>
+    function activarCamara() {
+            const video = document.getElementById('video');
+
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then((stream) => {
+                        video.srcObject = stream;
+                        video.play();
+                    })
+                    .catch((error) => {
+                        alert('Error al acceder a la cámara: ' + error.message);
+                    });
+            } else {
+                alert('La cámara no es compatible con este navegador.');
+            }
+        }
+    </script>
 
     </body>
 </html>

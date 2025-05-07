@@ -40,6 +40,12 @@ if (!isset($_SESSION["usuario"])) {
             padding: 20px;
             background-color: #f1f1f1;
         }
+        video {
+            width: 320px;
+            height: 240px;
+            border: 2px solid #333;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>

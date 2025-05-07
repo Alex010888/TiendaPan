@@ -75,6 +75,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="mt-2 text-center">
         <img id="preview" src="#" alt="Vista previa" class="img-fluid rounded shadow" style="max-height: 200px; display: none;">
     </div>
+    <div class="mb-3">
+    <button type="button" class="btn btn-secondary rounded-pill" onclick="activarCamara();">
+    <i class="bi bi-camera-fill"></i> Tomar foto
+                </button>
+       </div>
+    
+</div>
+<div class="mb-3">
+<video id="video" autoplay></video>
+<button type="button" class="btn btn-secondary rounded-pill" onclick="capturarFoto();">
+    <i class="bi bi-camera-fill"></i> Capturar foto
+</button>
 </div>
 <script>
     document.getElementById('Foto').addEventListener('change', function (event) {
