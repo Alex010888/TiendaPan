@@ -1,7 +1,7 @@
 <?php
 // URL base
-$url_base = "http://localhost/TiendaPan/";
-
+//$url_base = "http://localhost/TiendaPan/";
+$url_base = "http://192.168.158.207/TiendaPan/";
 session_start();
 
 // Control de caché
@@ -40,12 +40,31 @@ if (!isset($_SESSION["usuario"])) {
             padding: 20px;
             background-color: #f1f1f1;
         }
-        video {
-            width: 320px;
-            height: 240px;
-            border: 2px solid #333;
-            margin: 10px 0;
-        }
+        .camera-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    #video {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 300px;
+        height: 220px;
+    }
+
+    .btn-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .btn {
+        min-width: 150px;
+    }
     </style>
 </head>
 <body>

@@ -82,11 +82,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        </div>
     
 </div>
-<div class="mb-3">
-<video id="video" autoplay></video>
-<button type="button" class="btn btn-secondary rounded-pill" onclick="capturarFoto();">
-    <i class="bi bi-camera-fill"></i> Capturar foto
-</button>
+<div class="camera-container">
+    <video id="video" autoplay></video>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <div class="btn-container">
+        <button type="button" class="btn btn-success rounded-pill" name="Foto" id="Foto" onclick="capturarFoto();">
+            <i class="bi bi-camera-fill"></i> Capturar Foto
+        </button>
+        <button type="button" class="btn btn-danger rounded-pill" onclick="apagarCamara();">
+            <i class="bi bi-camera-video-off"></i> Apagar Cámara
+        </button>
+    </div>
 </div>
 <script>
     document.getElementById('Foto').addEventListener('change', function (event) {
