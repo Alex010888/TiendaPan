@@ -69,12 +69,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="text" class="form-control rounded-pill" name="Nombre" id="Nombre" placeholder="Ej. Pan integral" required>
             </div>
 
-            <div class="mb-3">
+           <div class="mb-3">
     <label for="Foto" class="form-label">Foto del producto</label>
     <input type="file" class="form-control rounded-pill" name="Foto" id="Foto" accept="image/*" required>
     <div class="mt-2 text-center">
-        <img id="preview" src="#" alt="Vista previa" class="img-fluid rounded shadow" style="max-height: 250px; display: none;">
+        <!-- Vista previa de la imagen -->
+        <img id="preview" src="#" alt="Vista previa" class="img-fluid rounded shadow" 
+             style="max-height: 200px; display: none; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#imageModal">
     </div>
+</div>
+
+<!-- Modal para ver la imagen en grande -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Vista previa en grande</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="preview-large" src="#" alt="Vista previa en grande" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="mb-3">
     <button type="button" class="btn btn-secondary rounded-pill" onclick="activarCamara();">
     <i class="bi bi-camera-fill"></i> Tomar foto
@@ -95,21 +114,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 <script>
-    document.getElementById('Foto').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('preview');
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            preview.style.display = 'none';
-        }
-    });
+document.getElementById('Foto').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('preview');
+    const previewLarge = document.getElementById('preview-large');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            previewLarge.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.style.display = 'none';
+    }
+});
 </script>
+
 
 
             <div class="mb-3">

@@ -1,5 +1,14 @@
 <?php
 include("../../db.php");
+try {
+    // Consulta para obtener el título del producto
+    $stmt = $conn->prepare("SELECT nombre FROM productos WHERE id = :id LIMIT 1");
+    $stmt->bindParam(':id', $_GET['txtID'], PDO::PARAM_INT); 
+    $stmt->execute();
+    $producto = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error al obtener el título: " . $e->getMessage();
+}
 
 function eliminarProducto($conn, $txtID) {
     try {
@@ -75,9 +84,32 @@ try {
                             <td><?= htmlspecialchars($registro["nombre"]) ?></td>
                             <td>$<?= number_format($registro["precio"], 2) ?></td>
                             <td><?= htmlspecialchars($registro["categoria"]) ?></td>
-                            <td>
-                                <img class="rounded" width="80" src="../../uploads/<?= htmlspecialchars($registro['foto']) ?>" alt="Foto del producto">
-                            </td>
+                           <td>
+    <img class="rounded preview-image" width="80" 
+         src="../../uploads/<?= htmlspecialchars($registro['foto']) ?>" 
+         alt="Foto del producto" 
+         data-bs-toggle="modal" 
+         data-bs-target="#imageModal" 
+         data-image-src="../../uploads/<?= htmlspecialchars($registro['foto']) ?>" 
+         data-product-name="<?= htmlspecialchars($registro['nombre']) ?>" 
+         style="cursor: pointer;">
+</td>
+
+                         <!-- Modal para ver la imagen en grande -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel"> <?= htmlspecialchars($producto['nombre'] ?? 'Producto no encontrado') ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="#" alt="Vista previa en grande" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</div>
+
                             <td><?= htmlspecialchars($registro["fecha"]) ?></td>
                             <td>
                                 <a class="btn btn-outline-info btn-sm rounded-pill" href="editar.php?txtID=<?= htmlspecialchars($registro['id']) ?>">
@@ -109,6 +141,26 @@ try {
         });
     });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('imageModalLabel');
+
+    // Capturar clic en cualquier imagen con la clase 'preview-image'
+    document.querySelectorAll('.preview-image').forEach(function (image) {
+        image.addEventListener('click', function () {
+            // Obtener la URL de la imagen y el nombre del producto
+            const imageUrl = this.getAttribute('data-image-src');
+            const productName = this.getAttribute('data-product-name');
+            
+            // Actualizar el modal con la imagen y el nombre
+            modalImage.src = imageUrl;
+            modalTitle.textContent = productName;
+        });
+    });
+});
+</script>
+
 <script>
     alert(id);
     Swal.fire("Borrar...");

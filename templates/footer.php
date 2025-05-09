@@ -155,6 +155,38 @@ function apagarCamara() {
 
 
     </script>
+<script>
+document.getElementById('Foto').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('preview');
+    const previewLarge = document.getElementById('preview-large');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            previewLarge.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.style.display = 'none';
+    }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modalImage = document.getElementById('modalImage');
+
+    // Capturar clic en cualquier imagen con la clase 'preview-image'
+    document.querySelectorAll('.preview-image').forEach(function (image) {
+        image.addEventListener('click', function () {
+            const imageUrl = this.getAttribute('data-image-src');
+            modalImage.src = imageUrl;
+        });
+    });
+});
+</script>
 
     </body>
 </html>
