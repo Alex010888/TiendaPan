@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <label for="Foto" class="form-label">Foto del producto</label>
     <input type="file" class="form-control rounded-pill" name="Foto" id="Foto" accept="image/*" required>
     <div class="mt-2 text-center">
-        <img id="preview" src="#" alt="Vista previa" class="img-fluid rounded shadow" style="max-height: 200px; display: none;">
+        <img id="preview" src="#" alt="Vista previa" class="img-fluid rounded shadow" style="max-height: 250px; display: none;">
     </div>
     <div class="mb-3">
     <button type="button" class="btn btn-secondary rounded-pill" onclick="activarCamara();">
