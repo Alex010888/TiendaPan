@@ -1,7 +1,7 @@
 </main>
 </br>
        <footer class="mt-4">
-    <p>&copy; 2025 Tienda de Pan - Todos los derechos reservados</p>
+    <p>&copy; 2025 Panaderia Dulce Vida - Todos los derechos reservados</p>
 </footer>
 
 
@@ -101,60 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 </script>
 
-<script>
-    function activarCamara() {
-    const video = document.getElementById('video');
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then((stream) => {
-            video.srcObject = stream;
-            video.play();
-        })
-        .catch(console.error);
-}
 
-function capturarFoto() {
-    const canvas = document.getElementById('canvas');
-    const video = document.getElementById('video');
-    const context = canvas.getContext('2d');
-
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    // Convertir a Blob y enviar como archivo
-    canvas.toBlob((blob) => {
-        const file = new File([blob], "captura.png", { type: "image/png" });
-        
-        const formData = new FormData();
-        formData.append("Foto", file);
-
-        fetch("crear.php", {
-            method: "POST",
-            body: formData,
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            alert("Foto guardada correctamente");
-            console.log(data);
-        })
-        .catch((error) => {
-            console.error("Error al guardar la foto:", error);
-        });
-    }, "image/png");
-}
-
-function apagarCamara() {
-    const video = document.getElementById('video');
-    const stream = video.srcObject;
-    if (stream) {
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
-        video.srcObject = null;
-    }
-}
-
-
-    </script>
 <script>
 document.getElementById('Foto').addEventListener('change', function(event) {
     const file = event.target.files[0];

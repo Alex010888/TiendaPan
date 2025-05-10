@@ -94,17 +94,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 
-    <div class="mb-3">
+  <div class="mb-3">
     <button type="button" class="btn btn-secondary rounded-pill" onclick="activarCamara();">
-    <i class="bi bi-camera-fill"></i> Tomar foto
-                </button>
-       </div>
-    
+        <i class="bi bi-camera-fill"></i> Activar Cámara
+    </button>
 </div>
-<div class="camera-container">
-    <video id="video" autoplay></video>
+
+<div class="camera-container" style="display: none;">
+    <video id="video" autoplay class="w-100"></video>
     <canvas id="canvas" style="display: none;"></canvas>
-    <div class="btn-container">
+    <div class="btn-container d-flex justify-content-between mt-3">
         <button type="button" class="btn btn-success rounded-pill" name="Foto" id="Foto" onclick="capturarFoto();">
             <i class="bi bi-camera-fill"></i> Capturar Foto
         </button>
@@ -113,6 +112,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </button>
     </div>
 </div>
+
+<script>
+function activarCamara() {
+    const video = document.getElementById('video');
+    document.querySelector('.camera-container').style.display = 'block';
+
+    // Solicitar acceso a la cámara del dispositivo
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                video.srcObject = stream;
+            })
+            .catch(function(error) {
+                console.log("Error al acceder a la cámara: ", error);
+                alert("No se pudo acceder a la cámara.");
+            });
+    } else {
+        alert("La cámara no está disponible en este navegador.");
+    }
+}
+
+function capturarFoto() {
+    const canvas = document.getElementById('canvas');
+    const video = document.getElementById('video');
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL('image/png');
+    
+    // Mostrar la imagen capturada en la vista previa
+    const preview = document.getElementById('preview');
+    preview.src = dataUrl;
+    preview.style.display = 'block';
+
+    apagarCamara();  // Apagar la cámara después de tomar la foto
+}
+
+function apagarCamara() {
+    const video = document.getElementById('video');
+    const stream = video.srcObject;
+    if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());  // Detener todas las pistas de video
+        video.srcObject = null;
+    }
+    document.querySelector('.camera-container').style.display = 'none';  // Ocultar el contenedor de la cámara
+}
+</script>
+
+
 <script>
 document.getElementById('Foto').addEventListener('change', function(event) {
     const file = event.target.files[0];

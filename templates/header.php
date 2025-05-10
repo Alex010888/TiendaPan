@@ -1,7 +1,10 @@
 <?php
+
+
+
 // URL base
 //$url_base = "http://localhost/TiendaPan/";
-$url_base = "http://192.168.158.207/TiendaPan/";
+$url_base = "http://192.168.1.14/TiendaPan/";
 session_start();
 
 // Control de caché
